@@ -11,7 +11,11 @@ export const criar = async (req, res) => {
 
 export const listar = async (req, res) => {
     try {
-        const produtos = await Produto.findAll();
+        const produtos = await Produto.findAll({
+            include: [
+                { association: 'categoria' }
+            ]
+        });
         res.status(200).json(produtos);
     } catch (error) {
         res.status(500).json({ erro: error.message });
@@ -20,9 +24,13 @@ export const listar = async (req, res) => {
 
 export const obterPorId = async (req, res) => {
     try {
-        const produto = await Produto.findByPk(req.params.id);
+        const produto = await Produto.findByPk(req.params.id, {
+            include: [
+                { association: 'categoria' }
+            ]
+        });
         if (!produto) {
-            return res.status(404).json({ erro: 'Produto não encontrado' });
+            return res.status(404).json({ erro: 'Produto nao encontrado' });
         }
         res.status(200).json(produto);
     } catch (error) {
@@ -34,7 +42,7 @@ export const atualizar = async (req, res) => {
     try {
         const produto = await Produto.findByPk(req.params.id);
         if (!produto) {
-            return res.status(404).json({ erro: 'Produto não encontrado' });
+            return res.status(404).json({ erro: 'Produto nao encontrado' });
         }
         await produto.update(req.body);
         res.status(200).json(produto);
@@ -47,7 +55,7 @@ export const deletar = async (req, res) => {
     try {
         const produto = await Produto.findByPk(req.params.id);
         if (!produto) {
-            return res.status(404).json({ erro: 'Produto não encontrado' });
+            return res.status(404).json({ erro: 'Produto nao encontrado' });
         }
         await produto.destroy();
         res.status(204).send();

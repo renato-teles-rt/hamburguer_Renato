@@ -12,9 +12,13 @@ import Categoria from "../models/Categoria.js";
   findAll: async (req, res) => { 
     try
     {
-      const categorias = await Categoria.findAll();
+      const categorias = await Categoria.findAll({
+        include: [
+          { association: 'produtos' }
+        ]
+      });
       if (categorias.length === 0) {
-        throw new Error('Nenhuma categoria encontrada');
+        return res.status(200).json([]);
       }
       res.status(200).json(categorias);
     }catch (error) {
@@ -24,7 +28,11 @@ import Categoria from "../models/Categoria.js";
 
   findById: async (req, res) => { 
     try{
-        const categoria = await Categoria.findByPk(req.params.id);
+        const categoria = await Categoria.findByPk(req.params.id, {
+          include: [
+            { association: 'produtos' }
+          ]
+        });
         if (categoria) {
           res.status(200).json(categoria);
         } else {

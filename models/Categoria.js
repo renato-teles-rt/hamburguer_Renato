@@ -23,7 +23,7 @@ Categoria.init(
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: { msg: 'O nome não pode ser vazio' }
+            notEmpty: { msg: 'O nome nao pode ser vazio' }
         }
     }
   },

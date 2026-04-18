@@ -13,7 +13,7 @@ module.exports = async function () {
 
   try {
     await sequelize.authenticate();
-    console.log('Conexão com o banco realizada com sucesso');
+    console.log('Conexao com o banco realizada com sucesso');
   } catch (error) {
     console.error('Erro ao conectar com o banco:', error);
   }
